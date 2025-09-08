@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import android.widget.Button
 
 class DetailFragment : Fragment() {
 
@@ -32,6 +33,11 @@ class DetailFragment : Fragment() {
         // ambil ID dari arguments (dikirim dari MainActivity)
         val coffeeId = arguments?.getInt(COFFEE_ID, 0) ?: 0
         setCoffeeData(coffeeId)
+
+        // Back button handler
+        view.findViewById<Button>(R.id.btn_back).setOnClickListener {
+            parentFragmentManager.popBackStack()
+        }
     }
 
     fun setCoffeeData(id: Int) {
@@ -47,6 +53,14 @@ class DetailFragment : Fragment() {
             R.id.latte -> {
                 coffeeTitle?.text = getString(R.string.latte_title)
                 coffeeDesc?.text = getString(R.string.latte_desc)
+            }
+            R.id.espresso -> {
+                coffeeTitle?.text = getString(R.string.espresso_title)
+                coffeeDesc?.text = getString(R.string.espresso_desc)
+            }
+            R.id.mocha -> {
+                coffeeTitle?.text = getString(R.string.mocha_title)
+                coffeeDesc?.text = getString(R.string.mocha_desc)
             }
         }
     }
