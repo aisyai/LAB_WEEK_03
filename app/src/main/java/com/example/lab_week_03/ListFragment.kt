@@ -6,19 +6,20 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.Navigation
 
-class ListFragment : Fragment(), View.OnClickListener {
+class ListFragment : Fragment(){
 
-    private lateinit var coffeeListener: CoffeeListener
+//    private lateinit var coffeeListener: CoffeeListener
 
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        if (context is CoffeeListener) {
-            coffeeListener = context
-        } else {
-            throw RuntimeException("$context must implement CoffeeListener")
-        }
-    }
+//    override fun onAttach(context: Context) {
+//        super.onAttach(context)
+//        if (context is CoffeeListener) {
+//            coffeeListener = context
+//        } else {
+//            throw RuntimeException("Must implement CoffeeListener")
+//        }
+//    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,26 +34,31 @@ class ListFragment : Fragment(), View.OnClickListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         val coffeeList = listOf<View>(
             view.findViewById(R.id.affogato),
             view.findViewById(R.id.americano),
             view.findViewById(R.id.latte)
         )
 
-        coffeeList.forEach {
-            it.setOnClickListener(this)
+        coffeeList.forEach{ coffee ->
+            val fragmentBundle = Bundle()
+            fragmentBundle.putInt(COFFEE_ID, coffee.id)
+            coffee.setOnClickListener(
+                Navigation.createNavigateOnClickListener(
+                    R.id.coffee_id_action, fragmentBundle)
+            )
         }
     }
 
-    override fun onClick(v: View?) {
-        v?.let { coffee ->
-            coffeeListener.onSelected(coffee.id)
-        }
-    }
+//    override fun onClick(v: View?) {
+//        v?.let { coffee ->
+//            coffeeListener.onSelected(coffee.id)
+//        }
+//    }
 
     companion object {
-        @JvmStatic
-        fun newInstance() = ListFragment()
+//        @JvmStatic
+//        fun newInstance() = ListFragment()
+        const val COFFEE_ID = "COFFEE_ID"
     }
 }
